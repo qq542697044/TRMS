@@ -7,23 +7,25 @@
       </ul>
       <!-- 表单 --> 
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="login-form" size="medium">
-        <el-form-item prop="age" class="item-form">
+        <el-form-item prop="userName" class="item-form">
           <label for="">用户名</label>
-        <el-input v-model.number="ruleForm.age"></el-input>
+        <el-input v-model.number="ruleForm.userName"></el-input>
         </el-form-item>
 
-        <el-form-item prop="pass" class="item-form">
+        <el-form-item prop="userPass" class="item-form">
           <label for="">密码</label>
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-input type="password" v-model="ruleForm.userPass" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item v-if="false" prop="checkPass" class="item-form">
+        <el-form-item prop="checkPass" class="item-form" v-if="type=='signup'">
           <label for="">确认密码</label>
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" class="login-btn block">提交</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='user'">登录</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='signup'">注册</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='admin'">登录</el-button>
         </el-form-item>
 
       </el-form>
@@ -36,20 +38,12 @@ export default {
   name: "login",
   data() {
     var validateuserName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('年龄不能为空'));
+      if (value === '') {
+        return callback(new Error('用户名不能为空'));
       }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'));
-        } else {
-          if (value < 18) {
-            callback(new Error('必须年满18岁'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
+      else {
+        callback();
+      }
     };
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -71,10 +65,11 @@ export default {
       }
     };
     return {
+      type:'user',
       menuTab:[
-        {text:'登录',current:true},
-        {text:'注册',current:false},
-        {text:'管理员',current:false}
+        {text:'登录',current:true,type:'user'},
+        {text:'注册',current:false,type:'signup'},
+        {text:'管理员',current:false,type:'admin'}
       ],
       ruleForm: {
         useName: '',
@@ -99,10 +94,18 @@ export default {
   mounted() {},
   methods: {
     toggleMenu:function(data){
+     this.$refs['ruleForm'].resetFields();
      this.menuTab.forEach(element => {
         element.current=false;
       });
       data.current=true;
+      if(data.type=='signup'){
+        this.type='signup';
+      }else if(data.type=='user'){
+        this.type='user';
+      }else{
+        this.type='admin';
+      }
     },
     submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -114,9 +117,6 @@ export default {
           }
         });
     },
-  resetForm(formName) {
-    this.$refs[formName].resetFields();
-    }
   }
 };
 </script>
