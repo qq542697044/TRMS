@@ -17,13 +17,13 @@
         <el-input type="password" v-model="ruleForm.userPass" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item prop="checkPass" class="item-form" v-if="model=='signup'">
+        <el-form-item prop="checkPass" class="item-form" v-if="moudel=='signup'">
           <label for="">确认密码</label>
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item>
-        <el-button :type="model=='signup'?'danger':'primary'" @click="submitForm('ruleForm')" class="login-btn block" >{{model=='signup'?'注册':'登录'}}</el-button>
+        <el-button :type="moudel=='signup'?'danger':'primary'" @click="submitForm('ruleForm')" class="login-btn block" >{{moudel=='signup'?'注册':'登录'}}</el-button>
         </el-form-item>
 
       </el-form>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import sha1 from 'js-sha1'
 import {login} from "@/api/login"
 import {reactive,ref,onMounted} from "@vue/composition-api";
 export default {
@@ -39,7 +40,7 @@ export default {
   setup(props,context){
     //函数对象
     let validateuserName = (rule, value, callback) => {
-      var reg = /^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
+      var reg = /^[a-zA-Z0-9]{3,15}$/;
       if (value === '') {
         return callback(new Error('用户名不能为空'));
       }else if(!reg.test(value)){
@@ -49,7 +50,7 @@ export default {
       }
     };
     let validatePass = (rule, value, callback) => {
-      var reg=/^[a-zA-Z0-9]{6,15}$/;
+      var reg=/^[a-zA-Z0-9]{5,15}$/;
       if (value === '') {
         callback(new Error('请输入密码'));
       } else if(!reg.test(value)){
@@ -78,7 +79,7 @@ export default {
           {text:'管理员',current:false,type:'admin'}
         ]);
     //模块值
-    const model = ref('user');
+    const moudel = ref('user');
     //表单绑定数据
     const ruleForm = reactive({
         userName: '',
@@ -99,32 +100,37 @@ export default {
     });
     //函数
     const toggleMenu = ((data)=>{
-      context.refs['ruleForm'].resetFields();
+      
       menuTab.forEach(element => {
         element.current=false;
       });
         //高光
       data.current=true;
         //修改模块值
-      if(data.type=='signup'){
-        model.value='signup';
-      }else if(data.type=='user'){
-        model.value='user';
-      }else{
-        model.value='admin';
-      }
+      moudel.value=data.type;
+        //清除表单
+      resetForm();
     });
+
+    //清除表单
+    const resetForm = (()=>{
+      context.refs['ruleForm'].resetFields();
+    })
     //提交表单
     const submitForm = (formName =>{
       context.refs[formName].validate((valid) => {
           if (valid) {
             let obj={
               userName:ruleForm.userName,
-              userPass:ruleForm.userPass,
-              model:model.value
+              userPass:sha1(ruleForm.userPass),
+              moudel:moudel.value
             }
             login(obj).then((response)=>{
-                console.log("hhhh");
+                if(moudel.value=='user'){
+
+                }else{
+
+                }
             }).catch((error)=>{
 
             });
@@ -142,7 +148,7 @@ export default {
    });
    return{
      menuTab,
-     model,
+     moudel,
      toggleMenu,
      rules,
      ruleForm,
@@ -159,6 +165,8 @@ export default {
 #login {
   height: 100vh;
   background-color: #344a5f;
+  background-image: url('../../img/background.png');
+  background-size: cover;
 }
 
 .cover{
@@ -167,6 +175,7 @@ export default {
   line-height: 72px;
   color: #fff;
   text-align: center;
+  padding: 30px 0 30px 0;
 }
 
 .login-wrap{
@@ -182,8 +191,9 @@ export default {
     line-height: 36px;
     font-size: 14px;
     color:#fff;
-    border-radius: 2px;
+    border-radius: 2px 2px 0 0;
     cursor: pointer;
+    border-bottom: 2px solid white;
   }
   .current{
     background-color: rgba(0,0,0, 0.1);
