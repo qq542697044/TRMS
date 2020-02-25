@@ -23,9 +23,7 @@
         </el-form-item>
 
         <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='user'">登录</el-button>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='signup'">注册</el-button>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='admin'">登录</el-button>
+        <el-button :type="model=='signup'?'danger':'primary'" @click="submitForm('ruleForm')" class="login-btn block" >{{model=='signup'?'注册':'登录'}}</el-button>
         </el-form-item>
 
       </el-form>
@@ -34,7 +32,7 @@
 </template>
 
 <script>
-import {getSms} from "@/api/login"
+import {login} from "@/api/login"
 import {reactive,ref,onMounted} from "@vue/composition-api";
 export default {
   name: "login",
@@ -59,7 +57,7 @@ export default {
       }
       else {
         if (ruleForm.checkPass !== '') {
-          context.$refs.ruleForm.validateField('checkPass');
+          context.refs.ruleForm.validateField('checkPass');
         }
         callback();
       }
@@ -120,8 +118,17 @@ export default {
     const submitForm = (formName =>{
       context.refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-          } else {
+            let obj={
+              userName:ruleForm.userName,
+              userPass:ruleForm.userPass,
+              model:model.value
+            }
+            login(obj).then((response)=>{
+                console.log("hhhh");
+            }).catch((error)=>{
+
+            });
+          }else {
             console.log('error submit!!');
             return false;
           }
@@ -132,7 +139,6 @@ export default {
     */ 
    //挂载完成后
    onMounted(()=>{
-     getSms(ruleForm.userName);
    });
    return{
      menuTab,

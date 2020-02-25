@@ -1,25 +1,16 @@
 import service from '@/utils/request';
 
 /**
- * 获取验证码
- */
-export function getSms(data) {
-    service.request({
-        method: 'get',
-        url: "/getSms/",
-        data: data
-    })
-}
-
-
-/**
  * 获取用户信息
  */
 
 /**
- * 登录
+ * 登录 注册
  */
-
-/**
- * 注册
- */
+export function login(data) {
+    return service.request({
+        method: 'post',
+        url: "/login",
+        data: data
+    })
+}
