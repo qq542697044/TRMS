@@ -9,7 +9,7 @@
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="login-form" size="medium">
         <el-form-item prop="userName" class="item-form">
           <label for="">用户名</label>
-        <el-input v-model.number="ruleForm.userName"></el-input>
+        <el-input type="text" v-model="ruleForm.userName" maxlength="15"></el-input>
         </el-form-item>
 
         <el-form-item prop="userPass" class="item-form">
@@ -17,15 +17,15 @@
         <el-input type="password" v-model="ruleForm.userPass" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item prop="checkPass" class="item-form" v-if="type=='signup'">
+        <el-form-item prop="checkPass" class="item-form" v-if="model=='signup'">
           <label for="">确认密码</label>
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='user'">登录</el-button>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='signup'">注册</el-button>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="type=='admin'">登录</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='user'">登录</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='signup'">注册</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" v-if="model=='admin'">登录</el-button>
         </el-form-item>
 
       </el-form>
@@ -34,51 +34,62 @@
 </template>
 
 <script>
+import {getSms} from "@/api/login"
+import {reactive,ref,onMounted} from "@vue/composition-api";
 export default {
   name: "login",
-  data() {
-    var validateuserName = (rule, value, callback) => {
+  setup(props,context){
+    //函数对象
+    let validateuserName = (rule, value, callback) => {
+      var reg = /^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
       if (value === '') {
         return callback(new Error('用户名不能为空'));
-      }
-      else {
+      }else if(!reg.test(value)){
+        return callback(new Error('用户名格式有误'));
+      }else {
         callback();
       }
     };
-    var validatePass = (rule, value, callback) => {
+    let validatePass = (rule, value, callback) => {
+      var reg=/^[a-zA-Z0-9]{6,15}$/;
       if (value === '') {
         callback(new Error('请输入密码'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
+      } else if(!reg.test(value)){
+        callback(new Error('密码应为长度6-15位的字母数字组合'));
+      }
+      else {
+        if (ruleForm.checkPass !== '') {
+          context.$refs.ruleForm.validateField('checkPass');
         }
         callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== ruleForm.userPass) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
       }
     };
-    return {
-      type:'user',
-      menuTab:[
-        {text:'登录',current:true,type:'user'},
-        {text:'注册',current:false,type:'signup'},
-        {text:'管理员',current:false,type:'admin'}
-      ],
-      ruleForm: {
-        useName: '',
+    //这里放置data数据、生命周期、自定义函数
+    const menuTab = reactive([
+          {text:'登录',current:true,type:'user'},
+          {text:'注册',current:false,type:'signup'},
+          {text:'管理员',current:false,type:'admin'}
+        ]);
+    //模块值
+    const model = ref('user');
+    //表单绑定数据
+    const ruleForm = reactive({
+        userName: '',
         userPass: '',
         checkPass: ''
-        
-      },
-      rules: {
-       userName: [
+    });
+    //表单验证
+    const rules = reactive({
+        userName: [
           { validator: validateuserName, trigger: 'blur' }
         ],
         userPass: [
@@ -87,36 +98,53 @@ export default {
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
         ]
-      }  
-    };
-  },
-  created() {},
-  mounted() {},
-  methods: {
-    toggleMenu:function(data){
-     this.$refs['ruleForm'].resetFields();
-     this.menuTab.forEach(element => {
+    });
+    //函数
+    const toggleMenu = ((data)=>{
+      context.refs['ruleForm'].resetFields();
+      menuTab.forEach(element => {
         element.current=false;
       });
+        //高光
       data.current=true;
+        //修改模块值
       if(data.type=='signup'){
-        this.type='signup';
+        model.value='signup';
       }else if(data.type=='user'){
-        this.type='user';
+        model.value='user';
       }else{
-        this.type='admin';
+        model.value='admin';
       }
-    },
-    submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+    });
+    //提交表单
+    const submitForm = (formName =>{
+      context.refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
           } else {
             console.log('error submit!!');
             return false;
           }
-        });
-    },
+      })
+    });
+    /*
+    * 生命周期
+    */ 
+   //挂载完成后
+   onMounted(()=>{
+     getSms(ruleForm.userName);
+   });
+   return{
+     menuTab,
+     model,
+     toggleMenu,
+     rules,
+     ruleForm,
+     submitForm,
+     validateuserName,
+     validatePass,
+     validatePass2
+   };
   }
 };
 </script>
