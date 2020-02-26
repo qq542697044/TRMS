@@ -165,8 +165,9 @@ export default {
 #login {
   height: 100vh;
   background-color: #344a5f;
-  background-image: url('../../img/background.png');
-  background-size: cover;
+  background-image: url('../../img/background2.png');
+  background-position: center center;
+  background-size: 750px;
 }
 
 .cover{
@@ -196,7 +197,7 @@ export default {
     border-bottom: 2px solid white;
   }
   .current{
-    background-color: rgba(0,0,0, 0.1);
+    background-color: rgba(0,0,0, 0.5);
   }
 }
 

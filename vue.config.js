@@ -55,7 +55,13 @@ module.exports = {
         loaderOptions: {
             sass: {
                 prependData: `@import "./src/styles/main.scss";`
-            }
+            },
+            // postcss: {
+            //     // options here will be passed to postcss-loader
+            //     plugins: [require('postcss-px2rem')({
+            //         remUnit: 75
+            //     })]
+            // }
         },
         // 启用 CSS modules for all css / pre-processor files.
         requireModuleExtension: false
