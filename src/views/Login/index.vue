@@ -99,7 +99,7 @@ export default {
         ]
     });
     //函数
-    const toggleMenu = ((data)=>{
+    const toggleMenu = data=>{
       
       menuTab.forEach(element => {
         element.current=false;
@@ -110,14 +110,14 @@ export default {
       moudel.value=data.type;
         //清除表单
       resetForm();
-    });
+    };
 
     //清除表单
-    const resetForm = (()=>{
+    const resetForm = ()=>{
       context.refs['ruleForm'].resetFields();
-    })
+    }
     //提交表单
-    const submitForm = (formName =>{
+    const submitForm = (formName) =>{
       context.refs[formName].validate((valid) => {
           if (valid) {
             let obj={
@@ -126,20 +126,25 @@ export default {
               moudel:moudel.value
             }
             login(obj).then((response)=>{
-                if(moudel.value=='user'){
-
+              console.log('admin')
+                if(moudel.value==='admin'){
+                  setTimeout(()=>{
+                    context.root.$router.push({
+                      name: 'Console',
+                    })
+                  },1000)
+                 
                 }else{
 
                 }
             }).catch((error)=>{
-
             });
           }else {
             console.log('error submit!!');
             return false;
           }
       })
-    });
+    };
     /*
     * 生命周期
     */ 
