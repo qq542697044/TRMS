@@ -120,12 +120,12 @@ export default {
     const submitForm = (formName) =>{
       context.refs[formName].validate((valid) => {
           if (valid) {
-            let obj={
+            let requestData={
               userName:ruleForm.userName,
               userPass:sha1(ruleForm.userPass),
               moudel:moudel.value
             }
-            login(obj).then((response)=>{
+            login(requestData).then((response)=>{
               console.log('admin')
                 if(moudel.value==='admin'){
                   setTimeout(()=>{
