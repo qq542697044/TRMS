@@ -25,6 +25,19 @@ const routes = [{
             component: () =>
                 import ("../views/Console/index.vue")
         }]
+    },
+    {
+        path: "/user",
+        name: "user",
+        redirect: "/userindex",
+        component: () =>
+            import ("../views/Layout/index.vue"),
+        children: [{
+            path: "/userindex",
+            name: "userIndex",
+            component: () =>
+                import ("../views/Console/index.vue")
+        }]
     }
 ];
 

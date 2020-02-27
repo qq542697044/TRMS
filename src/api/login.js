@@ -7,7 +7,7 @@ import service from '@/utils/request';
 /**
  * 登录 注册
  */
-export function login(data) {
+export function Login(data) {
     return service.request({
         method: 'post',
         url: "/login",

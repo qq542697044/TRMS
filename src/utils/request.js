@@ -13,6 +13,8 @@ const service = axios.create({
 // Add a request interceptor
 service.interceptors.request.use(function(config) {
     // Do something before request is sent
+    config.headers['token'] = '';
+    config.headers['userName'] = '';
     return config;
 }, function(error) {
     // Do something with request error
