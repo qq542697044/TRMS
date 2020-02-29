@@ -7,8 +7,9 @@ const BASEURL = "/api";
 
 const service = axios.create({
     baseURL: BASEURL,
-    timeout: 10000,
+    timeout: 6000,
 });
+service.defaults.headers.post['Content-Type'] = 'application/json';
 
 // Add a request interceptor
 service.interceptors.request.use(function(config) {
@@ -36,6 +37,9 @@ service.interceptors.response.use(function(response) {
         return Promise.resolve(response);
     }
 }, function(error) {
+    if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
+        Message.error("请求超时");
+    }
     // Do something with response error
     return Promise.reject(error);
 });

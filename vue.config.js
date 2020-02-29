@@ -89,7 +89,7 @@ module.exports = {
             "/api": {
                 /* 目标代理服务器地址 */
                 // target: "http://192.168.0.105:8090/",数据接口IP,
-                target: "http://192.168.0.105:8090", //
+                target: "http://54.169.193.25:8888/", //
                 /* 允许跨域 */
                 changeOrigin: true,
                 pathRewrite: {

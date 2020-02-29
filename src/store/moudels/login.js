@@ -36,6 +36,7 @@ const actions = {
                 setuserName(requestData.userName);
                 resolve(response);
             }).catch(error => {
+
                 reject(error);
             })
         })

@@ -133,8 +133,11 @@ export default {
             userPass: sha1(ruleForm.userPass),
             moudel: moudel.value
           };
+          let data=JSON.stringify(requestData);
+          console.log(requestData);
+          console.log(data);
           context.root.$store
-            .dispatch("login/login", requestData)
+            .dispatch("login/login",requestData)
             .then(response => {
               setTimeout(() => {
                 if (moudel.value === "admin") {
