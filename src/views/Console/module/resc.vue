@@ -75,7 +75,7 @@
           <el-form-item label="类别" label-width="80px">
             <el-select v-model="resData.type" placeholder="请选择类别" filterable allow-create>
               <el-option
-                v-for="item in options_type"
+                v-for="item in options_type.item"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -85,7 +85,7 @@
           <el-form-item label="地址" label-width="80px">
             <el-select v-model="resData.address" placeholder="请选择地址" filterable allow-create>
               <el-option
-                v-for="item in options_addr"
+                v-for="item in options_addr.item"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -95,7 +95,7 @@
           <el-form-item label="供应商" label-width="80px">
             <el-select v-model="resData.supplier" placeholder="请选择供应商" filterable allow-create>
               <el-option
-                v-for="item in options_supp"
+                v-for="item in options_supp.item"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
