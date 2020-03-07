@@ -1,1 +1,11 @@
-$left: 200px;
+//后台尺寸
+//菜单宽度
+$menuWidth: 200px;
+$cmenuWidth: 64px;
+@mixin webkit($type, $value) {
+    -webkit-#{$type}: $value;
+    -moz-#{$type}: $value;
+    -o-#{$type}: $value;
+    -ms-#{$type}: $value;
+    #{$type}: $value;
+}

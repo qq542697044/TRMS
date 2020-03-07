@@ -3,11 +3,14 @@ import VueCompositionApi from "@vue/composition-api";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import "./plugins/element.js";
-import "./router/premit"
-// import 'lib-flexible/flexible.js'
+import "./plugins/element";
+import "./router/premit";
+import "./icons/index"
 
+
+// import 'lib-flexible/flexible.js'
 Vue.use(VueCompositionApi);
+
 
 Vue.config.productionTip = false;
 

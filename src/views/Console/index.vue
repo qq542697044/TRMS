@@ -1,6 +1,6 @@
 <template>
     <div>
-        控制台11111
+        首页
     </div>
 </template>
 

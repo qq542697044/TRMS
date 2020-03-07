@@ -13,8 +13,8 @@ export function getuserName() {
 }
 
 export function setToken(token) {
-    console.log('token注入');
-    return cookie.set('token', token)
+    // console.log('token注入');
+    return cookie.set('token', token, { expires: 1 });
 }
 
 export function setuserName(value) {
@@ -23,6 +23,19 @@ export function setuserName(value) {
 
 export function setuserLoc(value) {
     return cookie.set('userLoc', value);
+}
+
+export function getCollapse() {
+    let Collapse = cookie.get('Collapse')
+    if (Collapse) {
+        return Collapse;
+    } else {
+        return 'false';
+    }
+}
+
+export function setCollapse(value) {
+    return cookie.set('Collapse', value);
 }
 
 export function removeToken() {

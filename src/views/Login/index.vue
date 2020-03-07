@@ -31,17 +31,18 @@
           <el-input type="password" v-model="ruleForm.userPass" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item prop="checkPass" class="item-form" v-if="moudel=='signup'">
+        <el-form-item prop="checkPass" class="item-form" v-if="module=='signup'">
           <label for>确认密码</label>
           <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item>
           <el-button
-            :type="moudel=='signup'?'danger':'primary'"
+            :type="module=='signup'?'danger':'primary'"
             @click="submitForm('ruleForm')"
             class="login-btn block"
-          >{{moudel=='signup'?'注册':'登录'}}</el-button>
+            :loading="loading"
+          >{{module=='signup'?'注册':'登录'}}{{ loading ? '中 ...' : '' }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -94,7 +95,8 @@ export default {
       { text: "管理员", current: false, type: "admin" }
     ]);
     //模块值
-    const moudel = ref("user");
+    const module = ref("user");
+    const loading = ref(false);
     //表单绑定数据
     const ruleForm = reactive({
       userName: "",
@@ -115,7 +117,7 @@ export default {
       //高光
       data.current = true;
       //修改模块值
-      moudel.value = data.type;
+      module.value = data.type;
       //清除表单
       resetForm();
     };
@@ -131,27 +133,30 @@ export default {
           let requestData = {
             userName: ruleForm.userName,
             userPass: sha1(ruleForm.userPass),
-            moudel: moudel.value
+            module: module.value
           };
-          let data=JSON.stringify(requestData);
-          console.log(requestData);
-          console.log(data);
+          loading.value=true;
+          // let data=JSON.stringify(requestData);
+          // console.log(requestData);
+          // console.log(data);
           context.root.$store
             .dispatch("login/login",requestData)
             .then(response => {
               setTimeout(() => {
-                if (moudel.value === "admin") {
+                if (module.value === "admin") {
                   context.root.$router.push({
                     name: "Console"
                   });
                 } else {
                   context.root.$router.push({
-                    name: "user"
+                    name: "User"
                   });
                 }
               }, 1000);
             })
-            .catch(error => {});
+            .catch(error => {
+              loading.value=false;
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -163,17 +168,19 @@ export default {
      */
 
     //挂载完成后
-    onMounted(() => {});
+    onMounted(() => {
+    });
     return {
       menuTab,
-      moudel,
+      module,
       toggleMenu,
       rules,
       ruleForm,
       submitForm,
       validateuserName,
       validatePass,
-      validatePass2
+      validatePass2,
+      loading
     };
   }
 };

@@ -25,8 +25,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             //接口      
             Login(requestData).then((response) => {
-                console.log(response);
-
                 let data = response.data.data;
                 content.commit('SET_USERNAME', requestData.userName);
                 content.commit('SET_TOKEN', data.token);

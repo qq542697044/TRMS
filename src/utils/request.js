@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import { getuserName, getToken } from '@/utils/cookie.js'
 
 //创建axios，赋给变量service
 //服务端请求地址,地址：
@@ -14,8 +15,8 @@ service.defaults.headers.post['Content-Type'] = 'application/json';
 // Add a request interceptor
 service.interceptors.request.use(function(config) {
     // Do something before request is sent
-    config.headers['token'] = '';
-    config.headers['userName'] = '';
+    config.headers['token'] = getToken();
+    config.headers['userName'] = getuserName();
     return config;
 }, function(error) {
     // Do something with request error
@@ -30,10 +31,12 @@ service.interceptors.response.use(function(response) {
         Message.error(data.message);
         return Promise.reject(data);
     } else {
-        Message({
-            message: data.message,
-            type: 'success'
-        });
+        if (data.message != "") {
+            Message({
+                message: data.message,
+                type: 'success'
+            });
+        }
         return Promise.resolve(response);
     }
 }, function(error) {

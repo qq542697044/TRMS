@@ -1,1 +1,27 @@
 @import "./reset.scss";
+@import "./config.scss";
+@import "./element-ui.scss";
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+//占位空间
+.black-space-30 {
+    height: 30px;
+}
+
+@font-face {
+    font-family: 'webfont';
+    font-display: swap;
+    src: url('//at.alicdn.com/t/webfont_wdrwwco9me.eot');
+    /* IE9*/
+    src: url('//at.alicdn.com/t/webfont_wdrwwco9me.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_wdrwwco9me.woff2') format('woff2'), url('//at.alicdn.com/t/webfont_wdrwwco9me.woff') format('woff'), /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_wdrwwco9me.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_wdrwwco9me.svg#庞门正道标题体2') format('svg');
+    /* iOS 4.1- */
+}
