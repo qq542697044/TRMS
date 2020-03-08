@@ -62,9 +62,9 @@
     <!-- 新增数据弹窗 -->
     <el-drawer
       title="新增数据"
-      :visible.sync="dialog"
+      :visible="dialog"
       direction="ltr"
-      :before-close="handleClose"
+      :before-close="addRes"
       :with-header="true"
     >
       <div class="demo-drawer__content">
@@ -122,25 +122,24 @@
           <el-button @click="cancelForm">取 消</el-button>
           <el-button
             type="primary"
-            @click="handleClose"
+            @click="addRes"
             :loading="loading"
           >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
         </div>
       </div>
     </el-drawer>
     <!-- 数据表格 -->
-    <el-table :data="tableData" border style="width: 100%" max-height="430"> 
+    <el-table :data="tableData" border style="width: 100%" max-height="430" @selection-change="handleSelectionChange"> 
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="编号" width="160"></el-table-column>
       <el-table-column prop="type" label="类型" width="120"></el-table-column>
       <el-table-column prop="state" label="状态" width="120"></el-table-column>
-      <el-table-column prop="address" label="地址" width="320"></el-table-column>
+      <el-table-column prop="address" label="地址" ></el-table-column>
       <el-table-column prop="supplier" label="供应商" width="240"></el-table-column>
-      <el-table-column fixed="right" label="操作">
+      <el-table-column fixed="right" label="操作" width='90'>
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small" @click="deleteRes(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,7 +147,7 @@
     <!-- 表格页脚 -->
     <el-row>
       <el-col :span="8">
-        <el-button type="danger">批量删除</el-button>
+        <el-button type="danger" @click="deleteAll(tableData[1])">批量删除</el-button>
       </el-col>
       <el-col :span="16">
         <el-pagination class="float-right"
@@ -163,6 +162,20 @@
         ></el-pagination>
       </el-col>
     </el-row>
+
+
+
+    <!-- 资源详情弹窗 -->
+    <el-drawer 
+      title="资源详情"
+      :visible="dialog1"
+      direction="rtl"
+      :before-close="infoBoxClose"
+      :with-header="false">
+      <div class="demo-drawer__content">
+
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -173,49 +186,16 @@ export default {
   setup(props, { root }) {
     //类型选项
     const options_type = reactive({
-      item: [{
-              value: "路灯",
-              label: "路灯"
-            },
-            {
-              value: "护栏",
-              label: "护栏"
-            },
-            {
-              value: "监控",
-              label: "监控"
-            }]
+      item: []
     });
 
     //地址选项
     const options_addr = reactive({
-      item:[{
-              value: "遂宁",
-              label: "遂宁"
-            },
-            {
-              value: "成都",
-              label: "成都"
-            },
-            {
-              value: "绵阳",
-              label: "绵阳"
-            }]
+      item:[]
     });
     //供应商选项
     const options_supp = reactive({
-      item:[{
-              value: "腾讯",
-              label: "腾讯"
-            },
-            {
-              value: "阿里巴巴",
-              label: "阿里巴巴"
-            },
-            {
-              value: "字节跳动",
-              label: "字节跳动"
-            }]
+      item:[]
       });
     const type = ref("");
     const addr = ref("");
@@ -269,98 +249,46 @@ export default {
         address: "上海市普陀区金沙江路 1512 弄",
         supplier: "xxx"
       },
-      {
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },
-      {
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },{
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },
-      {
-        id: "H0001",
-        type: "护栏",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1512 弄",
-        supplier: "xxx"
-      },
-       {
-        id: "C0001",
-        type: "监控",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1519 弄",
-        supplier: "xxx"
-      }, 
-      {
-        id: "C0001",
-        type: "监控",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1519 弄",
-        supplier: "xxx"
-      }, 
-      {
-        id: "C0001",
-        type: "监控",
-        state: "正常",
-        address: "上海市普陀区金沙江路 1519 弄",
-        supplier: "xxx"
-      },
     ]);
-
-    const handleClick = row => {
-      console.log(row);
-    };
+    //表格中多选框记录
+    const multipleSelection=reactive([]);
+    const handleSelectionChange=(val) =>{
+        multipleSelection.values = val;
+      }
 
     /*查询资源信息*/
 
 
 
     /*删除资源*/
+    const deleteRes=(row)=>{
+      console.log(row.id);
+      root.$confirm("确定删除该条数据？","提示",{type:'warning'})
+      .then(_ => { 
+        root.$store.dispatch("resc/delete_resource",{ids:[row.id]})
+        .then(response=>{})
+        .catch(error=>{})
+      }).catch(_ => {})   
+    }
 
-
-
+    /*批量删除 */
+    const deleteAll=()=>{
+      console.log(multipleSelection.values)
+      root.$confirm("确定删除选择的数据？","提示",{type:'warning'})
+      .then(_ => { 
+        let deleteData={
+          ids:[]
+        }
+        multipleSelection.values.forEach(item => {
+          deleteData.ids.push(item.id)
+        });
+        console.log(deleteData.ids)
+        root.$store.dispatch("resc/delete_resource",deleteData)
+        .then(response=>{
+        })
+        .catch(error=>{})
+      }).catch(_ => {})   
+    }
 
     /*更新资源信息*/
 
@@ -372,7 +300,7 @@ export default {
     const loading = ref(false);
     const dialog = ref(false);
     //新增资源
-    const handleClose = done => {
+    const addRes = done => {
       if (loading.value) {
         return;
       } else if (resData.id != "") {
@@ -413,9 +341,15 @@ export default {
       clearTimeout(timer.value);
     };
 
-
-
-
+    /*资源详情弹窗控制 */
+    const dialog1 = ref(false);
+    const handleClick = row => {
+      dialog1.value=true;
+      console.log(row);
+    };
+    const infoBoxClose = ()=>{
+      dialog1.value=false;
+    }
 
     //表格分页
     const currentPage=ref(1);
@@ -432,23 +366,24 @@ export default {
         root.$store
                 .dispatch("resc/get_sort_info")
                 .then(response => {
-                  // options_type.item=response;
-                  // options_addr.item=response;
-                  // options_supp.item=response;
+                  let data=response.data.data;
+                  options_type.item=data.restype;
+                  options_addr.item=data.address;
+                  options_supp.item=data.supplier;
                 })
                 .catch(error => {});
     })
 
     onMounted(()=>{
-        // getSortInfo();
+        getSortInfo();
     })
     return {
       //reactive
-      search_form,options_type,options_addr,options_supp,tableData,resData,
+      search_form,options_type,options_addr,options_supp,tableData,resData,multipleSelection,
       //ref
-      addr,type,supp,search_id,dialog,timer,loading,currentPage,
+      addr,type,supp,search_id,dialog,timer,loading,currentPage,dialog1,
       //methods
-      handleClick,handleClose,cancelForm, handleSizeChange,handleCurrentChange,getSortInfo
+      handleClick,infoBoxClose,addRes,cancelForm, handleSizeChange,handleCurrentChange,getSortInfo,deleteRes,deleteAll,handleSelectionChange
     };
   }
 };

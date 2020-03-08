@@ -29,7 +29,7 @@ export function Update_resource(data) {
 export function Delete_resource(data) {
     return service.request({
         method: "post",
-        url: ' ',
+        url: '/delete',
         data: data,
     })
 }
@@ -38,6 +38,6 @@ export function Delete_resource(data) {
 export function Get_sort_info() {
     return service.request({
         method: 'post',
-        url: " ",
+        url: "/manage/get_resources",
     })
 }

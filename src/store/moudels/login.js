@@ -1,7 +1,7 @@
 import { Login } from "@/api/login"
 import { setToken, setuserLoc, setuserName, getuserName, getuserLoc } from "../../utils/cookie"
 
-
+//登录模块
 const state = {
     toKen: '',
     userName: getuserName() || '',

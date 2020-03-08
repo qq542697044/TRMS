@@ -1,5 +1,7 @@
 import { Add_resource, Get_sort_info, Delete_resource, Check_resource, Update_resource } from "@/api/resc";
 
+
+//资源管理模块
 const state = {}
 const mutations = {}
 const actions = {

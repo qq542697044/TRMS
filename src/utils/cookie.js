@@ -14,7 +14,7 @@ export function getuserName() {
 
 export function setToken(token) {
     // console.log('token注入');
-    return cookie.set('token', token, { expires: 1 });
+    return cookie.set('token', token, { expires: 7 });
 }
 
 export function setuserName(value) {
