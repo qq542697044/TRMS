@@ -1,9 +1,8 @@
 import Vue from "vue";
 
-
 //自定义全局图标组件
-import Svgicon from "./svg-icon"
-Vue.component('svg-icon', Svgicon)
+import Svgicon from "./svg-icon";
+Vue.component("svg-icon", Svgicon);
 
 /**
  * require.context:读取指定目录的所有文件
@@ -13,8 +12,8 @@ Vue.component('svg-icon', Svgicon)
  * 3.定义遍历文件规则
  */
 
-const req = require.context('./svg', false, /\.svg$/)
+const req = require.context("./svg", false, /\.svg$/);
 const requireAll = requireContext => {
-    return requireContext.keys().map(requireContext)
-}
-requireAll(req)
+  return requireContext.keys().map(requireContext);
+};
+requireAll(req);

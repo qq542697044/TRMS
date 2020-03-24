@@ -22,22 +22,18 @@ const routes = [
             import ("../views/Login/index.vue")
     },
 
-
-
-
-
     //管理员模块路由
     {
         path: "/console",
         name: "Console",
-        redirect: "/index",
+        redirect: "/console/index",
         meta: {
             name: "控制台"
         },
         component: () =>
             import ("../views/Layout/index.vue"),
         children: [{
-                path: "/index",
+                path: "/console/index",
                 name: "Index",
                 meta: {
                     icon: "home",
@@ -47,7 +43,7 @@ const routes = [
                     import ("../views/Console/index.vue")
             },
             {
-                path: "/info",
+                path: "/console/info",
                 name: "Info",
                 meta: {
                     icon: "info",
@@ -57,7 +53,7 @@ const routes = [
                     import ("../views/Console/module/info.vue")
             },
             {
-                path: "/resc",
+                path: "/console/resc",
                 name: "Resc",
                 meta: {
                     icon: "res",
@@ -67,7 +63,7 @@ const routes = [
                     import ("../views/Console/module/resc.vue")
             },
             {
-                path: "/userc",
+                path: "/console/userc",
                 name: "Userc",
                 meta: {
                     icon: "custom",
@@ -75,35 +71,51 @@ const routes = [
                 },
                 component: () =>
                     import ("../views/Console/module/userc.vue")
-            },
+            }
         ]
     },
-
-
-
-
-
-
 
     //用户模块路由
     {
         path: "/user",
         name: "User",
-        redirect: "/userindex",
+        redirect: "/user/index",
         meta: {
             name: "用户模块"
         },
         component: () =>
             import ("../views/Layout/index.vue"),
         children: [{
-            path: "/userindex",
-            name: "userIndex",
-            meta: {
-                name: "用户首页"
+                path: "/user/index",
+                name: "userIndex",
+                meta: {
+                    icon: "home",
+                    name: "用户首页"
+                },
+                component: () =>
+                    import ("../views/User/index.vue")
             },
-            component: () =>
-                import ("../views/User/index.vue")
-        }]
+            {
+                path: "/user/info",
+                name: "Info",
+                meta: {
+                    icon: "info",
+                    name: "个人信息"
+                },
+                component: () =>
+                    import ("../views/Console/module/info.vue")
+            },
+            {
+                path: "/user/resc",
+                name: "Resc",
+                meta: {
+                    icon: "res",
+                    name: "资源管理"
+                },
+                component: () =>
+                    import ("../views/User/module/resc.vue")
+            },
+        ]
     }
 ];
 

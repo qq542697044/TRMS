@@ -1,4 +1,4 @@
-import service from '@/utils/request';
+import service from "@/utils/request";
 
 /**
  * 获取用户信息
@@ -8,9 +8,9 @@ import service from '@/utils/request';
  * 登录 注册
  */
 export function Login(data) {
-    return service.request({
-        method: 'post',
-        url: "/user/lar",
-        data: data,
-    })
+  return service.request({
+    method: "post",
+    url: "/user/lar",
+    data: data
+  });
 }

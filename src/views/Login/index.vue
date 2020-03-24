@@ -8,9 +8,11 @@
         <li
           v-for="item in menuTab"
           :key="item.id"
-          :class="{'current':item.current}"
+          :class="{ current: item.current }"
           @click="toggleMenu(item)"
-        >{{item.text}}</li>
+        >
+          {{ item.text }}
+        </li>
       </ul>
       <!-- 表单 -->
       <el-form
@@ -23,26 +25,44 @@
       >
         <el-form-item prop="userName" class="item-form">
           <label for>用户名</label>
-          <el-input type="text" v-model="ruleForm.userName" maxlength="15"></el-input>
+          <el-input
+            type="text"
+            v-model="ruleForm.userName"
+            maxlength="15"
+          ></el-input>
         </el-form-item>
 
         <el-form-item prop="userPass" class="item-form">
           <label for>密码</label>
-          <el-input type="password" v-model="ruleForm.userPass" autocomplete="off"></el-input>
+          <el-input
+            type="password"
+            v-model="ruleForm.userPass"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item prop="checkPass" class="item-form" v-if="module=='signup'">
+        <el-form-item
+          prop="checkPass"
+          class="item-form"
+          v-if="module == 'signup'"
+        >
           <label for>确认密码</label>
-          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+          <el-input
+            type="password"
+            v-model="ruleForm.checkPass"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
 
         <el-form-item>
           <el-button
-            :type="module=='signup'?'danger':'primary'"
+            :type="module == 'signup' ? 'danger' : 'primary'"
             @click="submitForm('ruleForm')"
             class="login-btn block"
             :loading="loading"
-          >{{module=='signup'?'注册':'登录'}}{{ loading ? '中 ...' : '' }}</el-button>
+            >{{ module == "signup" ? "注册" : "登录"
+            }}{{ loading ? "中 ..." : "" }}</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -118,6 +138,8 @@ export default {
       data.current = true;
       //修改模块值
       module.value = data.type;
+      localStorage.setItem("module",data.type);
+      context.root.$store.dispatch("login/setModule",data.type);
       //清除表单
       resetForm();
     };
@@ -135,12 +157,12 @@ export default {
             userPass: sha1(ruleForm.userPass),
             module: module.value
           };
-          loading.value=true;
+          loading.value = true;
           // let data=JSON.stringify(requestData);
           // console.log(requestData);
           // console.log(data);
           context.root.$store
-            .dispatch("login/login",requestData)
+            .dispatch("login/login", requestData)
             .then(response => {
               setTimeout(() => {
                 if (module.value === "admin") {
@@ -155,7 +177,7 @@ export default {
               }, 1000);
             })
             .catch(error => {
-              loading.value=false;
+              loading.value = false;
             });
         } else {
           console.log("error submit!!");
@@ -169,6 +191,7 @@ export default {
 
     //挂载完成后
     onMounted(() => {
+       context.root.$store.dispatch("login/setModule","user");
     });
     return {
       menuTab,

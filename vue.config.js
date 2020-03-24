@@ -5,7 +5,7 @@ module.exports = {
     // baseUrl: process.env.NODE_ENV === 'production' ? './' : '/'
     publicPath: process.env.NODE_ENV === "production" ? "./" : "./",
     // 输出文件目录
-    outputDir: "dist",
+    outputDir: "trms",
     // eslint-loader 是否在保存的时候检查
     lintOnSave: false,
     // use the full build with in-browser compiler?
@@ -16,7 +16,7 @@ module.exports = {
     // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/webpack.md
     // webpack配置
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    chainWebpack: (config) => {
+    chainWebpack: config => {
         const svgRule = config.module.rule("svg");
         svgRule.uses.clear();
         svgRule
@@ -26,8 +26,8 @@ module.exports = {
                 symbolId: "icon-[name]",
                 include: ["./src/icons"]
             });
-
     },
+    //configureWebpack 是Vue CLI3.0 中用于配置 webpack 插件参数的地方，你在这里设置，会新建或者覆盖 webpack 默认配置
     configureWebpack: config => {
         Object.assign(config, {
             // 开发生产共同配置
@@ -41,13 +41,14 @@ module.exports = {
             resolve: {
                 extensions: [".js", ".vue", ".json"], //文件优先解析后缀名顺序
                 alias: {
-                    "vue": "vue/dist/vue.js",
+                    vue: "vue/dist/vue.js",
                     "@": path.resolve(__dirname, "./src"),
                     "@c": path.resolve(__dirname, "./src/components"),
                     "@v": path.resolve(__dirname, "./src/views"),
                     "@u": path.resolve(__dirname, "./src/utils"),
                     "@s": path.resolve(__dirname, "./src/service")
                 }, // 别名配置
+                //webpack ProvidePlugin 的含义是创建一个全局的变量，使这个变量在 webpack 各个模块内都可以使用。这里的配置含义是创建 '$'、'jQuery'、'window.jQuery' 三个变量指向 jquery 依赖，创建 'Popper' 变量指向 popper.js 依赖。
                 plugins: []
             }
         });
@@ -67,7 +68,7 @@ module.exports = {
         loaderOptions: {
             sass: {
                 prependData: `@import "./src/styles/main.scss";`
-            },
+            }
             // postcss: {
             //     // options here will be passed to postcss-loader
             //     plugins: [require('postcss-px2rem')({
@@ -92,24 +93,24 @@ module.exports = {
         /* 自动打开浏览器 */
         open: false,
         // host: "192.168.0.105",
-        host: "192.168.0.105",
-        port: 8080,
+        host: process.env.NODE_ENV === "production" ? "62.234.104.69" : "192.168.0.105",
+        port: 8889,
         https: false,
         hotOnly: false,
         /* 使用代理 */
         proxy: {
             "/api": {
-                /* 目标代理服务器地址 */
+                // /* 目标代理服务器地址 */
                 // target: "http://192.168.0.105:8090/",数据接口IP,
-                target: "http://54.169.193.25:8888/", //
-                /* 允许跨域 */
+                target: "http://62.234.104.69:8888/", //
+                // /* 允许跨域 */
                 changeOrigin: true,
                 pathRewrite: {
                     "^/api": ""
                 }
             }
         },
-        before: () => {}
+        // before: () => {}
     },
     // 第三方插件配置
     pluginOptions: {}

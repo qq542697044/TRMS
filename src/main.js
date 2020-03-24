@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 import "./plugins/element";
 import "./router/premit";
-import "./icons/index"
+import "./icons/index";
 
 
 // import 'lib-flexible/flexible.js'
