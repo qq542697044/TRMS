@@ -5,7 +5,7 @@ module.exports = {
     // baseUrl: process.env.NODE_ENV === 'production' ? './' : '/'
     publicPath: process.env.NODE_ENV === "production" ? "./" : "./",
     // 输出文件目录
-    outputDir: "trms",
+    outputDir: "dist-" + (new Date().getMonth() + 1) + '.' + (new Date().getDate()),
     // eslint-loader 是否在保存的时候检查
     lintOnSave: false,
     // use the full build with in-browser compiler?
@@ -92,8 +92,8 @@ module.exports = {
     devServer: {
         /* 自动打开浏览器 */
         open: false,
-        // host: "192.168.0.105",
-        host: process.env.NODE_ENV === "production" ? "62.234.104.69" : "192.168.0.105",
+        // host: 
+        host: process.env.NODE_ENV === "production" ? "62.234.104.69" : "192.168.0.102",
         port: 8889,
         https: false,
         hotOnly: false,

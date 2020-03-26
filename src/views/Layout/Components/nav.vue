@@ -5,7 +5,6 @@
       <span>交通资源管理系统</span>
     </div>
     <el-menu
-      default-active="1-4-1"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
       background-color="transparent"

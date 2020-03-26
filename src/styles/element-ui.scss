@@ -8,6 +8,10 @@
 }
 
 // table的样式
+.el-table {
+    width: 99.9% !important;
+}
+
 div.el-table {
     th {
         text-align: center;

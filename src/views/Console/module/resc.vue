@@ -1,7 +1,7 @@
 <template>
   <div id="resc">
     <el-form ref="form" :model="search_form" label-width="80px">
-      <el-row :gutter="20">
+      <el-row :gutter="15">
         <el-col :xs="24" :md="4">
           <el-form-item label="类别：">
             <template>
@@ -64,11 +64,7 @@
         </el-col>
         <!-- ID查询 -->
         <el-col :xs="24" :md="5">
-          <el-input
-            placeholder="请输入查询ID"
-            v-model="search_form.id"
-            clearable
-          ></el-input>
+          <el-input placeholder="请输入查询ID" v-model="search_form.id" clearable></el-input>
         </el-col>
         <el-col :xs="24" :md="1">
           <el-button icon="el-icon-search" circle @click="queryRes"></el-button>
@@ -76,9 +72,7 @@
 
         <!--新增数据按钮 -->
         <el-col :xs="24" :md="2" class="float-right">
-          <el-button type="primary" round @click="dialog = true"
-            >新增/编辑</el-button
-          >
+          <el-button type="primary" round @click="dialog = true">新增/编辑</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -97,13 +91,7 @@
             <el-input v-model="resData.id" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="类别" label-width="80px">
-            <el-select
-              v-model="resData.restype"
-              placeholder="请选择类别"
-              filterable
-              allow-create
-              @
-            >
+            <el-select v-model="resData.restype" placeholder="请选择类别" filterable allow-create>
               <el-option
                 v-for="item in options_type.item"
                 :key="item.value"
@@ -113,12 +101,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="地址" label-width="80px">
-            <el-select
-              v-model="resData.address"
-              placeholder="请选择地址"
-              filterable
-              allow-create
-            >
+            <el-select v-model="resData.address" placeholder="请选择地址" filterable allow-create>
               <el-option
                 v-for="item in options_addr.item"
                 :key="item.value"
@@ -128,12 +111,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="供应商" label-width="80px">
-            <el-select
-              v-model="resData.supplier"
-              placeholder="请选择供应商"
-              filterable
-              allow-create
-            >
+            <el-select v-model="resData.supplier" placeholder="请选择供应商" filterable allow-create>
               <el-option
                 v-for="item in options_supp.item"
                 :key="item.value"
@@ -143,12 +121,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="状态" label-width="80px">
-            <el-select
-              v-model="resData.resState"
-              placeholder
-              filterable
-              allow-create
-            >
+            <el-select v-model="resData.resState" placeholder filterable allow-create>
               <el-option label="正常" value="正常"></el-option>
               <el-option label="故障" value="故障"></el-option>
             </el-select>
@@ -165,64 +138,45 @@
         </el-form>
         <div class="demo-drawer__footer">
           <el-button @click="cancelForm">取 消</el-button>
-          <el-button type="primary" @click="addRes" :loading="loading">{{
+          <el-button type="primary" @click="addRes" :loading="loading">
+            {{
             loading ? "提交中 ..." : "确 定"
-          }}</el-button>
+            }}
+          </el-button>
         </div>
       </div>
     </el-drawer>
     <!-- 数据表格 -->
     <div class="black-space-30"></div>
-    <el-table
-      v-loading="tableLoading"
-      :data="tableData.item"
-      border
-      style="width: 100%"
-      max-height="430"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="编号" width="160"></el-table-column>
-      <el-table-column prop="type" label="类型" width="120"></el-table-column>
-      <el-table-column prop="state" label="状态" width="120"></el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址"
-        width="320"
-      ></el-table-column>
-      <el-table-column
-        prop="supplier"
-        label="供应商"
-        width="160"
-      ></el-table-column>
-      <!-- <el-table-column prop="notice" label="备注" width="320"></el-table-column> -->
-      <el-table-column
-        prop="createdDate"
-        label="创建时间"
-        width="360"
-      ></el-table-column>
-      <el-table-column
-        prop="createdBy"
-        label="创建人"
-        width="240"
-      ></el-table-column>
-      <el-table-column
-        prop="modifiedDate"
-        label="修改时间"
-        width="360"
-      ></el-table-column>
-      <el-table-column prop="modifiedBy" label="修改人"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="90">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button type="text" size="small" @click="deleteRes(scope.row)"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <div style="width:100%">
+      <el-table
+        v-loading="tableLoading"
+        :data="tableData.item"
+        border
+        style="width: 100%"
+        max-height="430"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="id" label="编号" width="160"></el-table-column>
+        <el-table-column prop="type" label="类型" width="120"></el-table-column>
+        <el-table-column prop="state" label="状态" width="120"></el-table-column>
+        <el-table-column prop="address" label="地址" width="320"></el-table-column>
+        <el-table-column prop="supplier" label="供应商" width="160"></el-table-column>
+        <!-- <el-table-column prop="notice" label="备注" width="320"></el-table-column> -->
+        <el-table-column prop="createdDate" label="创建时间" width="360"></el-table-column>
+        <el-table-column prop="createdBy" label="创建人" width="240"></el-table-column>
+        <el-table-column prop="modifiedDate" label="修改时间" width="360"></el-table-column>
+        <el-table-column prop="modifiedBy" label="修改人" width="240"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="90">
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click="deleteRes(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
     <div class="black-space-30"></div>
     <!-- 表格页脚 -->
     <el-row>
@@ -288,11 +242,12 @@
           </el-form-item>
           <br />
           <el-form-item label="更新人">
-            <span>{{ rowInfo.item.modifiedBy }}</span> </el-form-item
-          ><br />
+            <span>{{ rowInfo.item.modifiedBy }}</span>
+          </el-form-item>
+          <br />
           <!-- <el-form-item label="备注">
             <span>{{ rowInfo.item.notice }}</span>
-          </el-form-item> -->
+          </el-form-item>-->
         </el-form>
       </div>
     </el-drawer>
@@ -387,10 +342,18 @@ export default {
         .then(response => {
           let resData = response.data.data.data;
           /*返回时间数据格式处理 */
-          // resData.forEach(item=>{
-          //   item.createdDate=；
-          //   item.modifiedDate=;
-          // })
+          resData.forEach(item => {
+            if (item.createdDate != null) {
+              let dateArray1 = item.createdDate.split("T");
+              let dateArray2 = dateArray1[1].split(".");
+              item.createdDate = dateArray1[0] + " " + dateArray2[0];
+            }
+            if (item.modifiedDate != null) {
+              dateArray1 = item.modifiedDate.split("T");
+              dateArray2 = dateArray1[1].split(".");
+              item.modifiedDate = dateArray1[0] + " " + dateArray2[0];
+            }
+          });
           tableData.item = resData;
 
           total.value = response.data.data.total;

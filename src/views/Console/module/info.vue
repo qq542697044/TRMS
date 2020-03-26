@@ -16,16 +16,16 @@
       </div>
     </div>
 
-    <div style="margin-bottom:20px;width:50%" class="float-left">
+    <div style="margin-bottom:20px;width:60%" class="float-left">
       <el-form
         id="info"
         ref="form"
         :model="form.item"
-        label-width="120px"
+        label-width="75px"
         class="float-left"
         style="margin-right:40px;"
       >
-        <el-form-item label="用户名">
+        <el-form-item label="姓名">
           <el-input v-model="form.item.userName" :disabled="dis"></el-input>
         </el-form-item>
         <el-form-item label="联系方式">
@@ -60,7 +60,7 @@
       </div>
       <div class="clearfloat"></div>
     </div>
-    <div class="float-right" style="width:50%;height:88vh"></div>
+    <div class="float-right" style="width:40%;height:88vh"></div>
     <el-button type="primary" v-if="dis == true" @click="Edit">编辑</el-button>
     <el-button type="success" v-if="dis == false" @click="Handle"
       >保存</el-button
@@ -81,7 +81,9 @@ import {
   computed,
   toRefs
 } from "@vue/composition-api";
+import { getuserName} from "@/utils/cookie";
 export default {
+  
   setup(props, { refs }) {
     const url =
       "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg";
@@ -93,7 +95,7 @@ export default {
 
     const form = reactive({
       item: {
-        userName: "xhy",
+        userName: getuserName(),
         userPhone: "123",
         sex: "男",
         age: "24",

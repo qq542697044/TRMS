@@ -84,39 +84,81 @@ const routes = [
             name: "用户模块"
         },
         component: () =>
-            import ("../views/Layout/index.vue"),
+            import ("../views/userLayout/index.vue"),
         children: [{
                 path: "/user/index",
                 name: "userIndex",
                 meta: {
                     icon: "home",
-                    name: "用户首页"
+                    name: "首页"
                 },
                 component: () =>
                     import ("../views/User/index.vue")
+            },
+            {
+                path: "/user/resc",
+                name: "Resc",
+                meta: {
+                    icon: "res2",
+                    name: "资源管理"
+                },
+                component: () =>
+                    import ("../views/User/module/resc.vue"),
             },
             {
                 path: "/user/info",
                 name: "Info",
                 meta: {
                     icon: "info",
-                    name: "个人信息"
+                    name: "个人中心"
                 },
                 component: () =>
                     import ("../views/Console/module/info.vue")
             },
-            {
-                path: "/user/resc",
-                name: "Resc",
-                meta: {
-                    icon: "res",
-                    name: "资源管理"
-                },
-                component: () =>
-                    import ("../views/User/module/resc.vue")
-            },
         ]
-    }
+    },
+
+    //test模块，未启用
+    // {
+    //     path: "/test",
+    //     name: "Test",
+    //     redirect: "/test/resc",
+    //     meta: {
+    //         name: "测试模块"
+    //     },
+    //     component: () =>
+    //         import ("../views/userLayout/index.vue"),
+    //     children: [{
+    //             path: "/test/index",
+    //             name: "testIndex",
+    //             meta: {
+    //                 icon: "home",
+    //                 name: "首页"
+    //             },
+    //             component: () =>
+    //                 import ("../views/User/index.vue")
+    //         },
+    //         {
+    //             path: "/test/resc",
+    //             name: "Resc",
+    //             meta: {
+    //                 icon: "res2",
+    //                 name: "资源管理"
+    //             },
+    //             component: () =>
+    //                 import ("../views/User/module/resc.vue"),
+    //         }, {
+    //             path: "/test/info",
+    //             name: "Info",
+    //             meta: {
+    //                 icon: "info",
+    //                 name: "个人中心"
+    //             },
+    //             component: () =>
+    //                 import ("../views/Console/module/info.vue")
+    //         },
+    //     ]
+    // }
 ];
 
 const router = new VueRouter({
